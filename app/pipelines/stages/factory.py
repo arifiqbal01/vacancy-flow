@@ -13,6 +13,8 @@ from app.pipelines.stages.match import MatchStage
 from app.pipelines.stages.normalize import NormalizeStage
 from app.pipelines.stages.notify import NotifyStage
 from app.transform.deduplicator import Deduplicator
+from app.pipelines.stages.state import StateStage
+from app.state import FileStateStore
 
 
 @dataclass(slots=True)
@@ -20,6 +22,7 @@ class PipelineStages:
     extract: ExtractStage
     normalize: NormalizeStage
     deduplicate: DeduplicateStage
+    state: StateStage
     load: LoadStage
     match: MatchStage
     notify: NotifyStage
@@ -38,6 +41,10 @@ class PipelineStages:
             deduplicate=DeduplicateStage(
                 source=source,
                 deduplicator=Deduplicator(),
+            ),
+            state=StateStage(
+                source=source,
+                store=FileStateStore(),
             ),
             load=LoadStage(
                 source=source,

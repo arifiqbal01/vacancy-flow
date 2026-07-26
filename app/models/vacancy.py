@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import date
-
+from hashlib import sha256
 from .contact import Contact
 from .employment import Employment
 from .location import Location
@@ -38,3 +38,22 @@ class Vacancy:
     contact: Contact | None = None
 
     metadata: Metadata = field(default_factory=Metadata)
+
+    @property
+    def identifier(self) -> str:
+        """Return a stable identifier for persistence."""
+
+        if self.vacancy_number:
+            return self.vacancy_number
+
+        value = "|".join(
+            [
+                self.title.strip().lower(),
+                self.organization.name.strip().lower(),
+                self.location.city.strip().lower()
+                if self.location.city
+                else "",
+            ]
+        )
+
+        return sha256(value.encode("utf-8")).hexdigest()

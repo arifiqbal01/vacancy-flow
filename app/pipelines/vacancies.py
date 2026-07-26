@@ -57,14 +57,19 @@ class VacaturesPipeline:
             normalized.vacancies
         )
 
+        # State
+        new_vacancies = self.stages.state.run(
+            dedupe.unique
+        )
+
         # Load
         self.stages.load.run(
-            dedupe.unique
+            new_vacancies
         )
 
         # Match
         matched = self.stages.match.run(
-            dedupe.unique
+            new_vacancies
         )
 
         # Notify
@@ -77,11 +82,11 @@ class VacaturesPipeline:
             extracted=normalized.extracted,
             normalized=len(normalized.vacancies),
             failed=normalized.failed,
-            unique=len(dedupe.unique),
+            unique=len(new_vacancies),
             duplicates=len(dedupe.duplicates),
             matched=len(matched.vacancies),
             notified=notified,
-            vacancies=dedupe.unique,
+            vacancies=new_vacancies,
         )
 
 
