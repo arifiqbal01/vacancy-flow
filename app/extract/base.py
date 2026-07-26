@@ -71,6 +71,31 @@ class BaseExtractor(ABC):
         """
         raise NotImplementedError
 
+    def should_skip(self, url: str) -> bool:
+        """
+        Return True if the vacancy should be skipped.
+
+        Subclasses can override this to perform an early state check
+        before downloading the vacancy page.
+        """
+        return False
+
+    def after_extract(self, url: str, vacancy: RawVacancy) -> None:
+        """
+        Hook executed after a vacancy has been extracted successfully.
+
+        Subclasses can override this to update state.
+        """
+        return None
+
+    def finish(self) -> None:
+        """
+        Hook executed once after extraction has completed.
+
+        Subclasses can override this to persist state.
+        """
+        return None
+
     def extract(self) -> Iterable[RawVacancy]:
         """
         Yield extracted vacancies.
@@ -86,10 +111,25 @@ class BaseExtractor(ABC):
             len(urls),
         )
 
+        skipped = 0
+
         for url in urls:
+            if self.should_skip(url):
+                skipped += 1
+                logger.debug("[%s] Skipping %s", self.source_name, url)
+                continue
+
             try:
                 vacancy = self.extract_vacancy(url)
-                logger.debug("[%s] Extracted %s", self.source_name, url)
+
+                self.after_extract(url, vacancy)
+
+                logger.debug(
+                    "[%s] Extracted %s",
+                    self.source_name,
+                    url,
+                )
+
                 yield vacancy
 
             except Exception:
@@ -98,6 +138,15 @@ class BaseExtractor(ABC):
                     self.source_name,
                     url,
                 )
+
+        self.finish()
+
+        if skipped:
+            logger.info(
+                "[%s] Skipped %d previously processed vacancies.",
+                self.source_name,
+                skipped,
+            )
 
     def close(self) -> None:
         """

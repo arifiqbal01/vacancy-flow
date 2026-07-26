@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import date
-from hashlib import sha256
+import hashlib
 from .contact import Contact
 from .employment import Employment
 from .location import Location
@@ -41,7 +41,10 @@ class Vacancy:
 
     @property
     def identifier(self) -> str:
-        """Return a stable identifier for persistence."""
+        """Return a stable identifier."""
+
+        if self.source.url:
+            return self.source.url
 
         if self.vacancy_number:
             return self.vacancy_number
@@ -56,4 +59,6 @@ class Vacancy:
             ]
         )
 
-        return sha256(value.encode("utf-8")).hexdigest()
+        return hashlib.sha256(
+            value.encode("utf-8")
+        ).hexdigest()

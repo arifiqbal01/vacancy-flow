@@ -19,7 +19,7 @@ Each stage is intentionally independent and swappable.
 from __future__ import annotations
 
 import logging
-
+from app.state import FileStateStore
 from app.extract.base import BaseExtractor
 from app.extract.werkenvoornederland import WerkenVoorNederlandExtractor
 from app.pipelines.config import PipelineConfig
@@ -35,6 +35,7 @@ class VacaturesPipeline:
     def __init__(
         self,
         extractor: BaseExtractor,
+        state_store: FileStateStore,
         config: PipelineConfig | None = None,
     ):
         self.extractor = extractor
@@ -43,6 +44,7 @@ class VacaturesPipeline:
         self.stages = PipelineStages.create(
             extractor=extractor,
             config=self.config,
+            state_store=state_store,
         )
 
     def run(self) -> PipelineResult:
@@ -56,20 +58,14 @@ class VacaturesPipeline:
         dedupe = self.stages.deduplicate.run(
             normalized.vacancies
         )
-
-        # State
-        new_vacancies = self.stages.state.run(
-            dedupe.unique
-        )
-
         # Load
         self.stages.load.run(
-            new_vacancies
+            dedupe.unique
         )
 
         # Match
         matched = self.stages.match.run(
-            new_vacancies
+            dedupe.unique
         )
 
         # Notify
@@ -77,16 +73,21 @@ class VacaturesPipeline:
             matched.vacancies
         )
 
+        # Commit processed vacancies to state
+        self.stages.commit_state.run(
+            dedupe.unique
+        )
+
         return PipelineResult(
             source=self.extractor.source_name,
             extracted=normalized.extracted,
             normalized=len(normalized.vacancies),
             failed=normalized.failed,
-            unique=len(new_vacancies),
+            unique=len(dedupe.unique),
             duplicates=len(dedupe.duplicates),
             matched=len(matched.vacancies),
             notified=notified,
-            vacancies=new_vacancies,
+            vacancies=dedupe.unique,
         )
 
 
@@ -97,13 +98,17 @@ def run_werkenvoornederland(
 
     config = config or PipelineConfig()
 
+    store = FileStateStore()
+
     extractor = WerkenVoorNederlandExtractor(
+        state_store=store,
         limit=config.max_vacancies,
     )
 
     try:
         pipeline = VacaturesPipeline(
             extractor=extractor,
+            state_store=store,
             config=config,
         )
 

@@ -18,6 +18,7 @@ from app.extract.parsers.parser import (
     WerkenVoorNederlandParser,
 )
 from app.models.raw import RawVacancy
+from app.state import StateStore
 
 
 logger = get_logger(__name__)
@@ -34,8 +35,13 @@ class WerkenVoorNederlandExtractor(BaseExtractor):
         "https://www.werkenvoornederland.nl/sitemap-vacatures.xml"
     )
 
-    def __init__(self, limit: int | None = None) -> None:
+    def __init__(
+        self,
+        state_store: StateStore | None = None,
+        limit: int | None = None,
+    ) -> None:
         self.client = HttpClient()
+        self.state_store = state_store
 
         if limit is not None:
             limit = int(limit)
@@ -96,8 +102,8 @@ class WerkenVoorNederlandExtractor(BaseExtractor):
 
     @retry_request()
     def extract_vacancy(
-            self,
-            url: str,
+        self,
+        url: str,
     ) -> RawVacancy:
 
         response = self.client.get(url)
@@ -109,6 +115,30 @@ class WerkenVoorNederlandExtractor(BaseExtractor):
             source=self.source_name,
             url=url,
         )
+
+    def should_skip(self, url: str) -> bool:
+        """Skip vacancies that have already been processed."""
+
+        if self.state_store is None:
+            return False
+
+        return self.state_store.contains(url)
+
+    def after_extract(
+            self,
+            url: str,
+            vacancy: RawVacancy,
+    ) -> None:
+        """Called after a vacancy has been extracted."""
+
+        # State is committed after the pipeline completes.
+        return None
+
+    def finish(self) -> None:
+        """Called after extraction completes."""
+
+        # Nothing to persist here.
+        return None
 
     @classmethod
     def _is_valid_url(
