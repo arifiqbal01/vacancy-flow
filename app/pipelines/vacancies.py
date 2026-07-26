@@ -12,6 +12,8 @@ Load
 Match
     ↓
 Notify
+    ↓
+CommitState
 
 Each stage is intentionally independent and swappable.
 """
@@ -19,12 +21,13 @@ Each stage is intentionally independent and swappable.
 from __future__ import annotations
 
 import logging
-from app.state import FileStateStore
+
 from app.extract.base import BaseExtractor
 from app.extract.werkenvoornederland import WerkenVoorNederlandExtractor
 from app.pipelines.config import PipelineConfig
 from app.pipelines.result import PipelineResult
 from app.pipelines.stages.factory import PipelineStages
+from app.state import FileStateStore
 
 logger = logging.getLogger(__name__)
 
@@ -48,47 +51,51 @@ class VacaturesPipeline:
         )
 
     def run(self) -> PipelineResult:
-        # Extract
-        raw = self.stages.extract.run()
-
-        # Normalize
-        normalized = self.stages.normalize.run(raw)
-
-        # Deduplicate
-        dedupe = self.stages.deduplicate.run(
-            normalized.vacancies
-        )
-        # Load
-        self.stages.load.run(
-            dedupe.unique
-        )
-
-        # Match
-        matched = self.stages.match.run(
-            dedupe.unique
-        )
-
-        # Notify
-        notified = self.stages.notify.run(
-            matched.vacancies
-        )
-
-        # Commit processed vacancies to state
-        self.stages.commit_state.run(
-            dedupe.unique
-        )
-
-        return PipelineResult(
+        result = PipelineResult(
             source=self.extractor.source_name,
-            extracted=normalized.extracted,
-            normalized=len(normalized.vacancies),
-            failed=normalized.failed,
-            unique=len(dedupe.unique),
-            duplicates=len(dedupe.duplicates),
-            matched=len(matched.vacancies),
-            notified=notified,
-            vacancies=dedupe.unique,
         )
+
+        for raw in self.stages.extract.run():
+            result.extracted += 1
+
+            # Normalize
+            try:
+                vacancy = self.stages.normalize.run(raw)
+                result.normalized += 1
+            except Exception:
+                result.failed += 1
+                continue
+
+            # Deduplicate
+            vacancy = self.stages.deduplicate.run(vacancy)
+
+            if vacancy is None:
+                result.duplicates += 1
+                continue
+
+            result.unique += 1
+            result.vacancies.append(vacancy)
+
+            # Load
+            self.stages.load.run(vacancy)
+
+            # Match
+            matched = self.stages.match.run(vacancy)
+
+            if matched is not None:
+                result.matched += 1
+
+                # Notify
+                if self.stages.notify.run(matched):
+                    result.notified += 1
+
+            # Commit processed vacancy
+            self.stages.commit_state.run(vacancy)
+
+        # Persist state once
+        self.stages.commit_state.finish()
+
+        return result
 
 
 def run_werkenvoornederland(

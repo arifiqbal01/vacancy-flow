@@ -8,6 +8,7 @@ logger = get_logger(__name__)
 
 
 class NotifyStage:
+    """Send a notification for a matched vacancy."""
 
     def __init__(
         self,
@@ -19,27 +20,25 @@ class NotifyStage:
         self.notifier = notifier or SlackNotifier()
         self.formatter = formatter or SlackFormatter()
 
-    def run(self, vacancies: list[MatchedVacancy]) -> int:
-        if not vacancies:
-            logger.info("[%s] Nothing to notify", self.source)
-            return 0
+    def run(
+        self,
+        matched: MatchedVacancy,
+    ) -> bool:
+        """Send a notification for one matched vacancy."""
 
         if not self.notifier.enabled():
             logger.info("[%s] Slack disabled", self.source)
-            return 0
+            return False
 
-        sent = 0
+        message = self.formatter.new_vacancy(matched)
 
-        for matched in vacancies:
-            message = self.formatter.new_vacancy(matched)
+        sent = self.notifier.send(message)
 
-            if self.notifier.send(message):
-                sent += 1
-
-        logger.info(
-            "[%s] Sent %d notification(s)",
-            self.source,
-            sent,
-        )
+        if sent:
+            logger.info(
+                "[%s] Sent notification for '%s'",
+                self.source,
+                matched.vacancy.title,
+            )
 
         return sent

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 
+from app.models.vacancy import Vacancy
 from app.load.csv import export_to_csv
 from app.load.json import export_to_json
 
@@ -9,38 +10,33 @@ logger = logging.getLogger(__name__)
 
 
 class LoadStage:
+    """Persist a single vacancy."""
 
     def __init__(self, source: str, config):
         self.source = source
         self.config = config
 
-    def run(self, vacancies):
-        if not vacancies:
-            logger.info("[%s] Nothing to load", self.source)
-            return
-
+    def run(self, vacancy: Vacancy) -> None:
         export_to_csv(
-            vacancies,
+            [vacancy],
             self.config.csv_path,
             mode=self.config.write_mode,
         )
 
-        logger.info(
-            "[%s] Wrote %d rows to %s",
+        logger.debug(
+            "[%s] Wrote vacancy to %s",
             self.source,
-            len(vacancies),
             self.config.csv_path,
         )
 
         if self.config.json_path:
             export_to_json(
-                vacancies,
+                [vacancy],
                 self.config.json_path,
             )
 
-            logger.info(
-                "[%s] Wrote %d records to %s",
+            logger.debug(
+                "[%s] Wrote vacancy to %s",
                 self.source,
-                len(vacancies),
                 self.config.json_path,
             )

@@ -7,9 +7,7 @@ from app.models.vacancy import Vacancy
 
 @dataclass(slots=True)
 class PipelineResult:
-    """
-    Summary of a pipeline execution.
-    """
+    """Summary of a pipeline execution."""
 
     source: str
 
@@ -27,10 +25,19 @@ class PipelineResult:
 
     @property
     def success_rate(self) -> float:
+        """Percentage of extracted vacancies successfully normalized."""
         if self.extracted == 0:
             return 0.0
 
-        return round((self.normalized / self.extracted) * 100, 2)
+        return round(
+            (self.normalized / self.extracted) * 100,
+            2,
+        )
+
+    def add_vacancy(self, vacancy: Vacancy) -> None:
+        """Record a successfully processed unique vacancy."""
+        self.vacancies.append(vacancy)
+        self.unique += 1
 
     def __str__(self) -> str:
         return (
