@@ -1,0 +1,45 @@
+name: Daily Vacancy Check
+
+on:
+  schedule:
+    # Every day at 06:00 UTC (07:00 CET / 08:00 CEST)
+    - cron: "0 6 * * *"
+
+  # Allow manual execution from the GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  vacancyflow:
+    name: Run VacancyFlow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Create virtual environment
+        run: python -m venv .venv
+
+      - name: Install dependencies
+        run: |
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run VacancyFlow
+        env:
+          APP_ENV: production
+          DEBUG: "false"
+          LOG_LEVEL: INFO
+
+          SLACK_ENABLED: "true"
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+        run: |
+          source .venv/bin/activate
+          python main.py
