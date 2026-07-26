@@ -42,4 +42,4 @@ jobs:
 
         run: |
           source .venv/bin/activate
-          python app/main.py
+          python -m app.main
