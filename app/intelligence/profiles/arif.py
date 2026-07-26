@@ -82,21 +82,86 @@ class ArifProfile(BaseProfile):
                 GUTENBERG,
 
                 # High-value job titles
+
+                # Backend
                 PYTHON_DEVELOPER,
-                PYTHON_ENGINEER,
                 BACKEND_DEVELOPER,
-                BACKEND_ENGINEER,
-                SOFTWARE_ENGINEER,
                 SOFTWARE_DEVELOPER,
+                APPLICATION_DEVELOPER,
                 API_DEVELOPER,
                 FULLSTACK_DEVELOPER,
+                WEB_DEVELOPER,
+                SYSTEMS_DEVELOPER,
+                INTEGRATION_DEVELOPER,
+                MICROSERVICES_ENGINEER,
+                TECHNICAL_SOFTWARE_ENGINEER,
+                SOFTWARE_ARCHITECT,
 
-                # Dutch job titles
-                PYTHON_ONTWIKKELAAR,
-                BACKEND_ONTWIKKELAAR,
-                SOFTWARE_ONTWIKKELAAR,
-                APPLICATIEONTWIKKELAAR,
-                FULLSTACK_ONTWIKKELAAR,
+                # Frontend
+                FRONTEND_DEVELOPER,
+                UI_DEVELOPER,
+                WEB_APPLICATION_DEVELOPER,
+                JAVASCRIPT_DEVELOPER,
+                TYPESCRIPT_DEVELOPER,
+                REACT_DEVELOPER,
+                ANGULAR_DEVELOPER,
+                VUE_DEVELOPER,
+
+                # AI
+                AI_ENGINEER,
+                MACHINE_LEARNING_ENGINEER,
+                GENAI_ENGINEER,
+                AI_SOFTWARE_ENGINEER,
+                MLOPS_ENGINEER,
+                NLP_ENGINEER,
+                COMPUTER_VISION_ENGINEER,
+                AI_ARCHITECT,
+                AI_RESEARCHER,
+                ML_RESEARCH_ENGINEER,
+                DATA_SCIENTIST,
+
+                # AgriTech
+                AGRITECH_ENGINEER,
+                AGRITECH_DEVELOPER,
+                AGRICULTURAL_DATA_SCIENTIST,
+                GIS_DEVELOPER,
+                REMOTE_SENSING_ENGINEER,
+
+                # Agriculture
+                AGRICULTURE,
+                PRECISION_AGRICULTURE,
+                AGRONOMY,
+
+                # Entomology
+                ENTOMOLOGY,
+                PEST_MANAGEMENT,
+                PEST_FORECASTING,
+                INSECT_MONITORING,
+                BIOLOGICAL_CONTROL,
+                IPM,
+                PHEROMONE,
+                INSECT_TRAP,
+
+                # Plant Science
+                PLANT_HEALTH,
+                PLANT_PROTECTION,
+
+                # GIS / Smart Farming
+                GIS,
+                REMOTE_SENSING,
+                COMPUTER_VISION,
+                IOT,
+
+                # Agricultural Data
+                AGRICULTURAL_DATA,
+                CROP_MODELLING,
+                DECISION_SUPPORT,
+                YIELD_PREDICTION,
+
+                # Agriculture Domain
+                SOIL,
+                IRRIGATION,
+                GREENHOUSE,
             ],
             excluded_keywords=[
                 # Java ecosystem

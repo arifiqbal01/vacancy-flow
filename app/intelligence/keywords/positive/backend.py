@@ -153,94 +153,204 @@ INTEGRATION_TESTING = Keyword(
 
 
 # ==========================================================
-# Backend Job Titles (English)
+# Backend Job Titles
 # ==========================================================
 
 PYTHON_DEVELOPER = Keyword(
     "python developer",
     weight=8,
-)
-
-PYTHON_ENGINEER = Keyword(
-    "python engineer",
-    weight=8,
+    synonyms=(
+        "python engineer",
+        "python ontwikkelaar",
+        "python programmeur",
+        "python software engineer",
+        "python software developer",
+    ),
 )
 
 BACKEND_DEVELOPER = Keyword(
     "backend developer",
     weight=8,
-)
-
-BACKEND_ENGINEER = Keyword(
-    "backend engineer",
-    weight=8,
-)
-
-SOFTWARE_ENGINEER = Keyword(
-    "software engineer",
-    weight=6,
+    synonyms=(
+        "backend engineer",
+        "backend ontwikkelaar",
+        "back-end developer",
+        "back-end engineer",
+        "back-end ontwikkelaar",
+        "backend programmeur",
+        "backend software engineer",
+        "backend software developer",
+    ),
 )
 
 SOFTWARE_DEVELOPER = Keyword(
     "software developer",
     weight=6,
+    synonyms=(
+        "software engineer",
+        "software ontwikkelaar",
+        "software programmeur",
+        "ontwikkelaar software",
+        "developer software",
+        "software developer .net",
+    ),
 )
 
 APPLICATION_DEVELOPER = Keyword(
     "application developer",
     weight=6,
+    synonyms=(
+        "application engineer",
+        "applicatieontwikkelaar",
+        "applicatie ontwikkelaar",
+        "ontwikkelaar applicaties",
+        "software applicatieontwikkelaar",
+    ),
 )
 
 API_DEVELOPER = Keyword(
     "api developer",
     weight=7,
+    synonyms=(
+        "api engineer",
+        "api ontwikkelaar",
+        "rest api developer",
+        "rest api engineer",
+        "rest ontwikkelaar",
+        "integration api developer",
+    ),
 )
 
 FULLSTACK_DEVELOPER = Keyword(
     "full stack developer",
-    weight=4,
+    weight=5,
     synonyms=(
         "full-stack developer",
         "fullstack developer",
+        "full stack engineer",
+        "full-stack engineer",
+        "fullstack engineer",
+        "full stack ontwikkelaar",
+        "full-stack ontwikkelaar",
+        "fullstack ontwikkelaar",
     ),
 )
 
-
-# ==========================================================
-# Backend Job Titles (Dutch)
-# ==========================================================
-
-PYTHON_ONTWIKKELAAR = Keyword(
-    "python ontwikkelaar",
-    weight=8,
-)
-
-BACKEND_ONTWIKKELAAR = Keyword(
-    "backend ontwikkelaar",
-    weight=8,
-)
-
-SOFTWARE_ONTWIKKELAAR = Keyword(
-    "software ontwikkelaar",
-    weight=6,
-)
-
-APPLICATIEONTWIKKELAAR = Keyword(
-    "applicatieontwikkelaar",
-    weight=6,
-)
-
-FULLSTACK_ONTWIKKELAAR = Keyword(
-    "fullstack ontwikkelaar",
+WEB_DEVELOPER = Keyword(
+    "web developer",
     weight=4,
+    synonyms=(
+        "web engineer",
+        "webontwikkelaar",
+        "web ontwikkelaar",
+        "webdeveloper",
+        "internet developer",
+    ),
 )
 
-PYTHON_ENGINEER_NL = Keyword(
-    "python engineer",
-    weight=8,
+SYSTEMS_DEVELOPER = Keyword(
+    "systems developer",
+    weight=5,
+    synonyms=(
+        "system developer",
+        "system engineer",
+        "systeemontwikkelaar",
+        "systeem ontwikkelaar",
+    ),
 )
 
-BACKEND_ENGINEER_NL = Keyword(
-    "backend engineer",
-    weight=8,
+INTEGRATION_DEVELOPER = Keyword(
+    "integration developer",
+    weight=6,
+    synonyms=(
+        "integration engineer",
+        "integratie ontwikkelaar",
+        "integratieontwikkelaar",
+        "middleware developer",
+        "middleware engineer",
+        "esb developer",
+        "koppelingen ontwikkelaar",
+    ),
+)
+
+PLATFORM_ENGINEER = Keyword(
+    "platform engineer",
+    weight=5,
+    synonyms=(
+        "platform developer",
+        "platform ontwikkelaar",
+        "platform engineer cloud",
+        "cloud platform engineer",
+    ),
+)
+
+MICROSERVICES_ENGINEER = Keyword(
+    "microservices engineer",
+    weight=6,
+    synonyms=(
+        "microservices developer",
+        "microservices ontwikkelaar",
+        "backend microservices",
+        "microservice developer",
+    ),
+)
+
+CLOUD_ENGINEER = Keyword(
+    "cloud engineer",
+    weight=5,
+    synonyms=(
+        "cloud developer",
+        "cloud architect",
+        "azure engineer",
+        "azure developer",
+        "aws engineer",
+        "gcp engineer",
+        "cloud ontwikkelaar",
+    ),
+)
+
+DEVOPS_ENGINEER = Keyword(
+    "devops engineer",
+    weight=4,
+    synonyms=(
+        "devops developer",
+        "devops ontwikkelaar",
+        "site reliability engineer",
+        "sre",
+        "platform devops engineer",
+    ),
+)
+
+TECHNICAL_SOFTWARE_ENGINEER = Keyword(
+    "technical software engineer",
+    weight=6,
+    synonyms=(
+        "technical software developer",
+        "technisch software engineer",
+        "technisch software ontwikkelaar",
+    ),
+)
+
+TECHNICAL_APPLICATION_MANAGER = Keyword(
+    "technical application manager",
+    weight=3,
+    synonyms=(
+        "technisch applicatiebeheerder",
+        "applicatiebeheerder",
+        "application administrator",
+        "technical application administrator",
+        "technisch beheerder",
+    ),
+)
+
+SOFTWARE_ARCHITECT = Keyword(
+    "software architect",
+    weight=6,
+    synonyms=(
+        "solution architect",
+        "technical architect",
+        "applicatie architect",
+        "software architectuur",
+        "solution engineer",
+    ),
 )

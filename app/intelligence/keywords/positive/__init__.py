@@ -5,3 +5,4 @@ from .cloud import *
 from .cms import *
 from .frontend import *
 from .infrastructure import *
+from .agritech import *
