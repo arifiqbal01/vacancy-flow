@@ -16,7 +16,7 @@ class PipelineConfig:
     json_filename: str | None = "vacatures.json"
 
     # None = process every vacancy.
-    max_vacancies: int | None = 5
+    max_vacancies: int | None = 6
 
     # Append instead of overwrite.
     incremental: bool = False
