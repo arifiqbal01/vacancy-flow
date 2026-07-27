@@ -187,11 +187,25 @@ SOFTWARE_DEVELOPER = Keyword(
     "software developer",
     weight=6,
     synonyms=(
+        # English
         "software engineer",
+        "software programmer",
+        "application developer",
+        "application engineer",
+
+        # Dutch
+        "softwareontwikkelaar",
         "software ontwikkelaar",
+        "software engineer",
+        "softwareprogrammeur",
         "software programmeur",
         "ontwikkelaar software",
+        "applicatieontwikkelaar",
+        "applicatie ontwikkelaar",
+
+        # Common variants
         "developer software",
+        ".net software developer",
         "software developer .net",
     ),
 )
@@ -352,5 +366,29 @@ SOFTWARE_ARCHITECT = Keyword(
         "applicatie architect",
         "software architectuur",
         "solution engineer",
+    ),
+)
+
+PRODUCT_ENGINEER = Keyword(
+    "product engineer",
+    weight=7,
+    synonyms=(
+        # English
+        "product developer",
+        "software product engineer",
+        "software product developer",
+        "digital product engineer",
+        "product software engineer",
+        "product software developer",
+        "technical product engineer",
+
+        # Dutch
+        "product engineer",
+        "productontwikkelaar",
+        "product ontwikkelaar",
+        "software productontwikkelaar",
+        "software product ontwikkelaar",
+        "technisch productontwikkelaar",
+        "technisch product ontwikkelaar",
     ),
 )

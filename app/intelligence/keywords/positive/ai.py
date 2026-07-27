@@ -260,3 +260,29 @@ AI_PRODUCT_ENGINEER = Keyword(
         "intelligent systems engineer",
     ),
 )
+
+FORWARD_DEPLOYED_ENGINEER = Keyword(
+    "forward deployed engineer",
+    weight=7,
+    synonyms=(
+        # English
+        "forward deployed software engineer",
+        "forward deployed developer",
+        "forward deployed consultant",
+        "forward deployed solutions engineer",
+        "deployment engineer",
+        "customer engineer",
+        "implementation engineer",
+        "implementation developer",
+        "technical implementation engineer",
+        "solution implementation engineer",
+        "customer solutions engineer",
+
+        # Dutch
+        "implementatie engineer",
+        "implementatie ontwikkelaar",
+        "implementatieconsultant",
+        "solution engineer",
+        "solutions engineer",
+    ),
+)

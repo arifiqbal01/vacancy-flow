@@ -96,6 +96,7 @@ class ArifProfile(BaseProfile):
                 MICROSERVICES_ENGINEER,
                 TECHNICAL_SOFTWARE_ENGINEER,
                 SOFTWARE_ARCHITECT,
+                PRODUCT_ENGINEER,
 
                 # Frontend
                 FRONTEND_DEVELOPER,
@@ -119,6 +120,7 @@ class ArifProfile(BaseProfile):
                 AI_RESEARCHER,
                 ML_RESEARCH_ENGINEER,
                 DATA_SCIENTIST,
+                FORWARD_DEPLOYED_ENGINEER,
 
                 # AgriTech
                 AGRITECH_ENGINEER,
@@ -162,6 +164,14 @@ class ArifProfile(BaseProfile):
                 SOIL,
                 IRRIGATION,
                 GREENHOUSE,
+
+                # CMS Job Titles
+                WORDPRESS_DEVELOPER,
+                SHOPIFY_DEVELOPER,
+                WOOCOMMERCE_DEVELOPER,
+                CMS_DEVELOPER,
+                ECOMMERCE_DEVELOPER,
+                WEB_CONTENT_ENGINEER,
             ],
             excluded_keywords=[
                 # Java ecosystem
